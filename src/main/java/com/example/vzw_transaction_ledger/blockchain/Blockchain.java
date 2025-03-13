@@ -1,4 +1,4 @@
-package com.example.vzwtransactionledger.blockchain;
+package com.example.vzw_transaction_ledger.blockchain;
 
 import java.util.ArrayList;
 import java.util.List;

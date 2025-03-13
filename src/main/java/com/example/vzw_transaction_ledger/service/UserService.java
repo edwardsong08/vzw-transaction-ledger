@@ -1,4 +1,4 @@
-package com.example.vzwtransactionledger.service;
+package com.example.vzw_transaction_ledger.service;
 
 import org.springframework.stereotype.Service;
 

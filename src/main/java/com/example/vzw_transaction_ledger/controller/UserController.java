@@ -1,7 +1,7 @@
-package com.example.vzwtransactionledger.controller;
+package com.example.vzw_transaction_ledger.controller;
 
-import com.example.vzwtransactionledger.model.User;
-import com.example.vzwtransactionledger.repository.UserRepository;
+import com.example.vzw_transaction_ledger.model.User;
+import com.example.vzw_transaction_ledger.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
