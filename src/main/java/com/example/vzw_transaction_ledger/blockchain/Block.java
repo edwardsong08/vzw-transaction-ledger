@@ -18,5 +18,13 @@ public class Block {
         return this.hash;
     }
 
-    // Optionally, add getters for other fields if needed.
+    // Getter for the data field
+    public String getData() {
+        return this.data;
+    }
+
+    // Getter for the previousHash field
+    public String getPreviousHash() {
+        return this.previousHash;
+    }
 }
