@@ -1,0 +1,11 @@
+<div th:fragment="header">
+    <header>
+        <h1 th:text="#{header.title}">My Application</h1>
+        <p>Current locale: <span th:text="${#locale}">en</span></p>
+        <!-- Language Selector Example -->
+        <nav>
+            <a th:href="@{/?lang=en}">English</a> | 
+            <a th:href="@{/?lang=ko}">한국어</a>
+        </nav>
+    </header>
+</div>
