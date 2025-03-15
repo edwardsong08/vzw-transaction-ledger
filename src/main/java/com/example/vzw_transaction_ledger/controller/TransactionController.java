@@ -3,60 +3,53 @@ package com.example.vzw_transaction_ledger.controller;
 import com.example.vzw_transaction_ledger.model.Transaction;
 import com.example.vzw_transaction_ledger.service.TransactionService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.ui.Model;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
-@RestController
+@Controller
 @RequestMapping("/transactions")
 public class TransactionController {
 
     @Autowired
     private TransactionService transactionService;
 
-    // GET /transactions - Retrieve all transactions
-    @GetMapping
-    public ResponseEntity<List<Transaction>> getAllTransactions() {
-        List<Transaction> transactions = transactionService.getAllTransactions();
-        return ResponseEntity.ok(transactions);
+    // Display the new transaction form
+    @GetMapping("/new")
+    public String showTransactionForm(Model model) {
+        model.addAttribute("transaction", new Transaction());
+        model.addAttribute("pageTitle", "Create New Transaction");
+        return "transactionForm";
     }
 
-    // GET /transactions/{id} - Retrieve a specific transaction by ID
-    @GetMapping("/{id}")
-    public ResponseEntity<Transaction> getTransactionById(@PathVariable Long id) {
-        return transactionService.getTransactionById(id)
-                .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
+    // Display the edit transaction form
+    @GetMapping("/edit/{id}")
+    public String showEditTransactionForm(@PathVariable Long id, Model model) {
+        Transaction txn = transactionService.getTransactionById(id)
+            .orElseThrow(() -> new RuntimeException("Transaction not found"));
+        model.addAttribute("transaction", txn);
+        model.addAttribute("pageTitle", "Edit Transaction");
+        return "transactionForm";
     }
 
-    // POST /transactions - Create a new transaction
-    @PostMapping
-    public ResponseEntity<Transaction> createTransaction(@RequestBody Transaction transaction) {
-        Transaction savedTransaction = transactionService.createTransaction(transaction);
-        return new ResponseEntity<>(savedTransaction, HttpStatus.CREATED);
+    // Handle form submission for creating a new transaction
+    @PostMapping("/save")
+    public String saveTransaction(@ModelAttribute Transaction transaction) {
+        transactionService.createTransaction(transaction);
+        return "redirect:/dashboard";
     }
 
-    // PUT /transactions/{id} - Update an existing transaction
-    @PutMapping("/{id}")
-    public ResponseEntity<Transaction> updateTransaction(@PathVariable Long id, @RequestBody Transaction transactionDetails) {
-        try {
-            Transaction updatedTransaction = transactionService.updateTransaction(id, transactionDetails);
-            return ResponseEntity.ok(updatedTransaction);
-        } catch (RuntimeException e) {
-            return ResponseEntity.notFound().build();
-        }
+    // Handle form submission for updating an existing transaction
+    @PostMapping("/update/{id}")
+    public String updateTransaction(@PathVariable Long id, @ModelAttribute Transaction transaction) {
+        transactionService.updateTransaction(id, transaction);
+        return "redirect:/dashboard";
     }
 
-    // DELETE /transactions/{id} - Delete a transaction
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteTransaction(@PathVariable Long id) {
-        try {
-            transactionService.deleteTransaction(id);
-            return ResponseEntity.noContent().build();
-        } catch (RuntimeException e) {
-            return ResponseEntity.notFound().build();
-        }
+    // Handle transaction deletion via GET for UI purposes
+    @GetMapping("/delete/{id}")
+    public String deleteTransaction(@PathVariable Long id) {
+        transactionService.deleteTransaction(id);
+        return "redirect:/dashboard";
     }
 }

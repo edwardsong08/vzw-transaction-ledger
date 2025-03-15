@@ -1,20 +1,83 @@
+html, body {
+    height: 100%;
+    margin: 0;
+}
+
 body {
     font-family: Arial, sans-serif;
-    background-color: #f5f5f5;
+    background-color: #f0f0f0;
     margin: 0;
     padding: 0;
+    display: grid;
+    grid-template-rows: auto 1fr;
 }
-header, footer {
+
+header {
     background-color: #333;
     color: #fff;
     padding: 1em;
-    text-align: center;
+    padding-left: 1em;  /* Optional: explicitly set left/right padding */
+    padding-right: 1em;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: fixed; /* Fixed header */
+    top: 0;
+    width: 100%;
+    box-sizing: border-box; /* Ensures padding is included in width */
+    z-index: 1000;
 }
+
+
+nav ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+}
+
+nav ul li {
+    margin-right: 15px;
+}
+
+nav ul li a {
+    color: #fff;
+    text-decoration: none;
+}
+
+/* Update the container background color to a light gray */
 .container {
     padding: 2em;
+    background-color: #e0e0e0d2;
+    flex: 1;
+    margin-top: 60px; /* Adjust this value to match your header height */
 }
-nav a {
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+table, th, td {
+    border: 1px solid #ccc;
+    padding: 8px;
+    text-align: left;
+}
+
+th {
+    background-color: #e0e0e0d2;
+}
+
+.lang-selector select {
+    padding: 5px;
+    margin-right: 1em; /* Adjust the value as needed */
+}
+
+footer {
+    background-color: #333;
     color: #fff;
-    margin: 0 10px;
-    text-decoration: none;
+    padding: 1em;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }

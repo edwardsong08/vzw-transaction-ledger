@@ -1,11 +1,22 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
 <div th:fragment="header">
     <header>
-        <h1 th:text="#{header.title}">My Application</h1>
-        <p>Current locale: <span th:text="${#locale}">en</span></p>
-        <!-- Language Selector Example -->
         <nav>
-            <a th:href="@{/?lang=en}">English</a> | 
-            <a th:href="@{/?lang=ko}">한국어</a>
+            <ul>
+                <li><a th:href="@{/dashboard}" th:text="#{header.dashboard}">Dashboard</a></li>
+                <li><a th:href="@{/api/users}" th:text="#{header.users}">Users (JSON)</a></li>
+                <li><a th:href="@{/api/transactions}" th:text="#{header.transactions}">Transactions (JSON)</a></li>
+            </ul>
         </nav>
+        <div class="lang-selector">
+            <form method="get" action="" id="langForm">
+                <select name="lang" onchange="document.getElementById('langForm').submit();">
+                    <option value="en" th:selected="${#locale.language == 'en'}">English</option>
+                    <option value="ko" th:selected="${#locale.language == 'ko'}">한국어</option>
+                </select>
+            </form>
+        </div>
     </header>
 </div>
+</html>

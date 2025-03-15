@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${pageTitle}">Transaction Form</title>
+</head>
+<body>
+    <section layout:fragment="content">
+        <h2 th:text="${pageTitle}">Transaction Form</h2>
+        <form th:action="@{${transaction.id} != null ? '/transactions/update/' + ${transaction.id} : '/transactions/save'}"
+              th:object="${transaction}" method="post">
+            <div>
+                <label>Amount:</label>
+                <input type="number" step="0.01" th:field="*{amount}" />
+                <div th:if="${#fields.hasErrors('amount')}" th:errors="*{amount}"></div>
+            </div>
+            <div>
+                <label>Timestamp:</label>
+                <input type="datetime-local" th:field="*{timestamp}" />
+                <div th:if="${#fields.hasErrors('timestamp')}" th:errors="*{timestamp}"></div>
+            </div>
+            <div>
+                <label>User ID:</label>
+                <input type="number" th:field="*{user.id}" />
+                <div th:if="${#fields.hasErrors('user.id')}" th:errors="*{user.id}"></div>
+            </div>
+            <div>
+                <button type="submit">Submit</button>
+            </div>
+        </form>
+        <a th:href="@{/dashboard}">Back to Dashboard</a>
+    </section>
+</body>
+</html>
