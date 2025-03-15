@@ -28,6 +28,12 @@ header {
     z-index: 1000;
 }
 
+.table-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 0.5em;
+}
 
 nav ul {
     list-style: none;
