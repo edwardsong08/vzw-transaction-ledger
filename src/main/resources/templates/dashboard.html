@@ -11,10 +11,10 @@
         <h2 th:text="#{welcome.message}">Welcome to the VZW Transaction Ledger!</h2>
         <p>This is your dashboard.</p>
         
-        <!-- Users Table Header and Link -->
+        <!-- Users Table -->
         <div class="table-header">
             <h3 th:text="#{dashboard.users}">Users</h3>
-            <a th:href="@{/users/new}" th:text="#{action.createUser}" class="create-link">Create New User</a>
+            <a th:href="@{/users/new}" th:text="#{action.createUser}">Create New User</a>
         </div>
         <table id="userTable" border="1">
             <thead>
@@ -38,10 +38,10 @@
             </tbody>
         </table>
         
-        <!-- Transactions Table Header and Link -->
+        <!-- Transactions Table -->
         <div class="table-header">
             <h3 th:text="#{dashboard.transactions}">Transactions</h3>
-            <a th:href="@{/transactions/new}" th:text="#{action.createTransaction}" class="create-link">Create New Transaction</a>
+            <a th:href="@{/transactions/new}" th:text="#{action.createTransaction}">Create New Transaction</a>
         </div>
         <table id="transactionTable" border="1">
             <thead>
@@ -66,6 +66,28 @@
                 </tr>
             </tbody>
         </table>
+        
+        <!-- Top 3 Users Report -->
+        <div class="table-header">
+            <h3 th:text="'Top 3 Users (Past Week)'">Top 3 Users (Past Week)</h3>
+        </div>
+        <table id="topUsersTable" border="1">
+            <thead>
+                <tr>
+                    <th>User ID</th>
+                    <th>Name</th>
+                    <th>Total Amount</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="summary : ${topUsers}">
+                    <td th:text="${summary.userId}">1</td>
+                    <td th:text="${summary.userName}">John Doe</td>
+                    <td th:text="${summary.totalAmount}">1000.00</td>
+                </tr>
+            </tbody>
+        </table>
+
     </section>
 </body>
 </html>

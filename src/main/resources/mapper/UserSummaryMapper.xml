@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.vzw_transaction_ledger.mapper.UserSummaryMapper">
+  
+  <select id="getTopUsers" parameterType="map" resultType="com.example.vzw_transaction_ledger.dto.UserTransactionSummaryDTO">
+    SELECT 
+        u.id AS userId,
+        u.name AS userName,
+        SUM(t.amount) AS totalAmount
+    FROM users u
+    LEFT JOIN transaction t ON u.id = t.user_id
+    
+    <where>
+      <if test="startDate != null">
+        AND t.timestamp &gt;= to_timestamp(#{startDate} / 1000.0)
+      </if>
+      <if test="endDate != null">
+        AND t.timestamp &lt;= to_timestamp(#{endDate} / 1000.0)
+      </if>
+    </where>
+
+    GROUP BY u.id, u.name
+    <if test="minCount != null">
+      HAVING COUNT(t.id) &gt;= #{minCount}
+    </if>
+    ORDER BY totalAmount DESC
+    LIMIT 3
+  </select>
+  
+</mapper>
