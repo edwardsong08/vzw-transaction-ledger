@@ -15,8 +15,9 @@ public class TransactionService {
     @Autowired
     private TransactionRepository transactionRepository;
 
-    // Create a blockchain instance to record transaction events (creation, update, deletion)
-    private Blockchain blockchain = new Blockchain();
+    // Autowire the blockchain bean from the application context
+    @Autowired
+    private Blockchain blockchain;
 
     // Retrieve all transactions
     public List<Transaction> getAllTransactions() {
@@ -30,20 +31,12 @@ public class TransactionService {
 
     // Create a new transaction
     public Transaction createTransaction(Transaction transaction) {
-        // Save the transaction to the database using JPA
         Transaction savedTransaction = transactionRepository.save(transaction);
-
-        // Create a summary string from the saved transaction
         String blockData = "Transaction ID: " + savedTransaction.getId() +
                            ", Amount: " + savedTransaction.getAmount() +
                            ", User ID: " + (savedTransaction.getUser() != null ? savedTransaction.getUser().getId() : "N/A");
-
-        // Add a new block to the blockchain with the transaction summary
         blockchain.addBlock(blockData);
-
-        // Log the blockchain state for debugging purposes
         System.out.println("Blockchain state after creation: " + blockchain.getChain());
-
         return savedTransaction;
     }
 
@@ -55,21 +48,12 @@ public class TransactionService {
             transaction.setAmount(transactionDetails.getAmount());
             transaction.setTimestamp(transactionDetails.getTimestamp());
             transaction.setUser(transactionDetails.getUser());
-            
-            // Save the updated transaction
             Transaction updatedTransaction = transactionRepository.save(transaction);
-
-            // Create a summary string to capture the update details
             String blockData = "Updated Transaction ID: " + updatedTransaction.getId() +
                                ", New Amount: " + updatedTransaction.getAmount() +
                                ", User ID: " + (updatedTransaction.getUser() != null ? updatedTransaction.getUser().getId() : "N/A");
-
-            // Add a new block to the blockchain for the update event
             blockchain.addBlock(blockData);
-
-            // Log the blockchain state after update
             System.out.println("Blockchain state after update: " + blockchain.getChain());
-
             return updatedTransaction;
         } else {
             throw new RuntimeException("Transaction not found with id " + id);
@@ -78,16 +62,9 @@ public class TransactionService {
 
     // Delete a transaction by ID
     public void deleteTransaction(Long id) {
-        // Delete the transaction from the database
         transactionRepository.deleteById(id);
-
-        // Create a summary string for the deletion event
         String blockData = "Deleted Transaction ID: " + id;
-
-        // Add a new block to the blockchain for the deletion event
         blockchain.addBlock(blockData);
-
-        // Log the blockchain state after deletion
         System.out.println("Blockchain state after deletion: " + blockchain.getChain());
     }
 

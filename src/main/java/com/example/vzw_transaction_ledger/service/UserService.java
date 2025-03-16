@@ -47,4 +47,11 @@ public class UserService {
     public void deleteUser(Long id) {
         userRepository.deleteById(id);
     }
+
+    // Add a method to check if an email already exists
+    public boolean emailExists(String email) {
+        Optional<User> userOpt = userRepository.findByEmail(email);
+        return userOpt.isPresent();
+    }
+
 }
