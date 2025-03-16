@@ -8,6 +8,7 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.JoinColumn;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Min;
+import org.springframework.format.annotation.DateTimeFormat;
 import java.time.LocalDateTime;
 
 @Entity
@@ -23,6 +24,7 @@ public class Transaction {
 
     // Ensure the timestamp is provided.
     @NotNull(message = "{transaction.timestamp.notNull}")
+    @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
     private LocalDateTime timestamp;
 
     // Ensure the transaction is associated with a user.
