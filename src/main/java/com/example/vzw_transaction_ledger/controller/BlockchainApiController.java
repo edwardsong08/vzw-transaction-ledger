@@ -7,11 +7,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-public class BlockchainController {
+public class BlockchainApiController {
 
     @Autowired
     private TransactionService transactionService;
 
+    // Expose the blockchain simulation as raw JSON.
     @GetMapping("/api/blockchain")
     public Blockchain getBlockchain() {
         return transactionService.getBlockchain();

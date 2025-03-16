@@ -15,8 +15,7 @@ public class TransactionService {
     @Autowired
     private TransactionRepository transactionRepository;
 
-    // Create a blockchain instance to record transaction summaries.
-    // This blockchain is our simulated blockchain that will record each transaction as a new block.
+    // Create a blockchain instance to record transaction events (creation, update, deletion)
     private Blockchain blockchain = new Blockchain();
 
     // Retrieve all transactions
@@ -34,8 +33,7 @@ public class TransactionService {
         // Save the transaction to the database using JPA
         Transaction savedTransaction = transactionRepository.save(transaction);
 
-        // Create a summary string from the saved transaction.
-        // For example, we record the transaction ID, amount, and associated user ID.
+        // Create a summary string from the saved transaction
         String blockData = "Transaction ID: " + savedTransaction.getId() +
                            ", Amount: " + savedTransaction.getAmount() +
                            ", User ID: " + (savedTransaction.getUser() != null ? savedTransaction.getUser().getId() : "N/A");
@@ -43,10 +41,9 @@ public class TransactionService {
         // Add a new block to the blockchain with the transaction summary
         blockchain.addBlock(blockData);
 
-        // (Optional) Log the current blockchain state for debugging
-        System.out.println("Blockchain state: " + blockchain.getChain());
+        // Log the blockchain state for debugging purposes
+        System.out.println("Blockchain state after creation: " + blockchain.getChain());
 
-        // Return the saved transaction as usual
         return savedTransaction;
     }
 
@@ -58,7 +55,22 @@ public class TransactionService {
             transaction.setAmount(transactionDetails.getAmount());
             transaction.setTimestamp(transactionDetails.getTimestamp());
             transaction.setUser(transactionDetails.getUser());
-            return transactionRepository.save(transaction);
+            
+            // Save the updated transaction
+            Transaction updatedTransaction = transactionRepository.save(transaction);
+
+            // Create a summary string to capture the update details
+            String blockData = "Updated Transaction ID: " + updatedTransaction.getId() +
+                               ", New Amount: " + updatedTransaction.getAmount() +
+                               ", User ID: " + (updatedTransaction.getUser() != null ? updatedTransaction.getUser().getId() : "N/A");
+
+            // Add a new block to the blockchain for the update event
+            blockchain.addBlock(blockData);
+
+            // Log the blockchain state after update
+            System.out.println("Blockchain state after update: " + blockchain.getChain());
+
+            return updatedTransaction;
         } else {
             throw new RuntimeException("Transaction not found with id " + id);
         }
@@ -66,10 +78,20 @@ public class TransactionService {
 
     // Delete a transaction by ID
     public void deleteTransaction(Long id) {
+        // Delete the transaction from the database
         transactionRepository.deleteById(id);
+
+        // Create a summary string for the deletion event
+        String blockData = "Deleted Transaction ID: " + id;
+
+        // Add a new block to the blockchain for the deletion event
+        blockchain.addBlock(blockData);
+
+        // Log the blockchain state after deletion
+        System.out.println("Blockchain state after deletion: " + blockchain.getChain());
     }
 
-    // Optional: Getter method to access the blockchain (for testing or auditing)
+    // Optional: Provide a getter to access the blockchain for debugging or audit purposes
     public Blockchain getBlockchain() {
         return blockchain;
     }
