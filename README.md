@@ -62,6 +62,9 @@ Run the tests using:
 ``` bash
 ./gradlew test
 ```
+1. /test for Blockchain.java, UserRepository.java and UserSummaryService.java
+2. manually tested each endpoint API with POSTMAN
+3. manually tested all functions through front end and cross referenced with front end raw JSON data for Users, Transactions, and Blockchain ledger which records new, edited, and deleted transactions.
 
 ## Future Enhancements?  
 1. Extend the blockchain simulation module.
