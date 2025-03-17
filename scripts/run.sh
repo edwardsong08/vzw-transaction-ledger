@@ -5,16 +5,16 @@
 echo "=== Starting Application ==="
 
 # Check if container exists
-if [ "$(docker ps -a -q -f name=^local-postgres$)" ]; then
+#if [ "$(docker ps -a -q -f name=^local-postgres$)" ]; then
   # If it's not running, start it
-    docker start local-postgres
-else
+    #docker start local-postgres
+#else
   # Create a new one if none found
-    docker run -d --name local-postgres -p 5432:5432 \
-    -e POSTGRES_USER=vzwuser -e POSTGRES_PASSWORD=vzwpass \
-    -e POSTGRES_DB=vzwledger \
-    postgres:latest
-fi
+    #docker run -d --name local-postgres -p 5432:5432 \
+    #-e POSTGRES_USER=vzwuser -e POSTGRES_PASSWORD=vzwpass \
+    #-e POSTGRES_DB=vzwledger \
+    #postgres:latest
+#fi
 
 # Step 1: Make sure we've built the .jar. 
 # You could call build.sh first if you like:
