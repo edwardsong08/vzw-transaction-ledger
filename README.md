@@ -67,7 +67,8 @@ Run the tests using:
 3. manually tested all functions through front end and cross referenced with front end raw JSON data for Users, Transactions, and Blockchain ledger which records new, edited, and deleted transactions.
 
 ## Future Enhancements?  
-1. Extend the blockchain simulation module.
-2. Improve the UI and add more business logic.
+1. Extend the blockchain simulation module from simulation to a real functioning blockchain.
+2. Improve the UI and add more business logic. (table views through backend, not front)
 3. Integrate AWS deployment scripts for a production environment.
+4. work h2 memory into the localized testing so it doesn't require a docker postgreSQL container.
    
