@@ -56,6 +56,8 @@ jobs:
         echo "$EC2_KEY_CONTENT" > ec2_key.pem
         chmod 600 ec2_key.pem
         ssh -o StrictHostKeyChecking=no -i ec2_key.pem ${{ env.EC2_USER }}@${{ env.EC2_HOST }} << 'EOF'
+          echo "Re-authenticating to ECR..."
+          aws ecr get-login-password --region us-east-2 | docker login --username AWS --password-stdin 795327773319.dkr.ecr.us-east-2.amazonaws.com
           echo "Pulling new Docker image from ECR..."
           docker pull ${{ env.ECR_REPOSITORY_URI }}:latest
           echo "Stopping and removing old container (if exists)..."
@@ -68,3 +70,4 @@ jobs:
             -e SPRING_DATASOURCE_PASSWORD=${{ env.DB_PASSWORD }} \
             ${{ env.ECR_REPOSITORY_URI }}:latest
         EOF
+
