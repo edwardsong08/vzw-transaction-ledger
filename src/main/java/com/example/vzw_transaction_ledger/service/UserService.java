@@ -32,26 +32,29 @@ public class UserService {
     // Update an existing user
     public User updateUser(Long id, User userDetails) {
         Optional<User> userOpt = userRepository.findById(id);
-        if(userOpt.isPresent()){
+        if (userOpt.isPresent()){
             User user = userOpt.get();
             user.setName(userDetails.getName());
             user.setEmail(userDetails.getEmail());
             return userRepository.save(user);
         } else {
-            // You could throw a custom exception or handle this scenario appropriately
             throw new RuntimeException("User not found with id " + id);
         }
     }
 
-    // Delete a user by ID
+    // Delete a user by ID with validation to prevent deletion if there are existing transactions
     public void deleteUser(Long id) {
+        // Check if the user has any transactions
+        long txnCount = userRepository.countTransactionsByUserId(id);
+        if (txnCount > 0) {
+            throw new RuntimeException("user.delete.error");
+        }
         userRepository.deleteById(id);
     }
 
-    // Add a method to check if an email already exists
+    // Method to check if an email already exists
     public boolean emailExists(String email) {
         Optional<User> userOpt = userRepository.findByEmail(email);
         return userOpt.isPresent();
     }
-
 }
