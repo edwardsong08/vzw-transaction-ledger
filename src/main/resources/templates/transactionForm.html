@@ -24,7 +24,15 @@
             </div>
             <div>
                 <label th:text="#{transaction.userId}">User ID</label>
-                <input type="number" th:field="*{user.id}" />
+                <div th:if="${transaction.id != null}">
+                    <!-- Editing an existing transaction: show user id as read-only -->
+                    <input type="number" th:field="*{user.id}" disabled="disabled" />
+                    <input type="hidden" th:field="*{user.id}" />
+                </div>
+                <div th:if="${transaction.id == null}">
+                    <!-- Creating a new transaction: allow user input -->
+                    <input type="number" th:field="*{user.id}" />
+                </div>
                 <div th:if="${#fields.hasErrors('user.id')}" th:errors="*{user.id}"></div>
             </div>
             <div>
